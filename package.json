@@ -1,0 +1,26 @@
+{
+  "name": "d3-framework",
+  "version": "1.0.0",
+  "description": "Framework for various types graphs and charts using D3.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmsparks/d3-framework.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cmsparks/d3-framework/issues"
+  },
+  "homepage": "https://github.com/cmsparks/d3-framework#readme",
+  "devDependencies": {
+    "webpack": "^3.11.0"
+  },
+  "dependencies": {
+    "d3": "^4.13.0"
+  }
+}
