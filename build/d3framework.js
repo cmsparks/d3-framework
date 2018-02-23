@@ -86,10 +86,18 @@ Object.defineProperty(exports, "Pie", {
     return _Pie.default;
   }
 });
+Object.defineProperty(exports, "Line", {
+  enumerable: true,
+  get: function get() {
+    return _Line.default;
+  }
+});
 
 var _Bar = _interopRequireDefault(__webpack_require__(1));
 
 var _Pie = _interopRequireDefault(__webpack_require__(2));
+
+var _Line = _interopRequireDefault(__webpack_require__(3));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -128,7 +136,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Bar =
 /*#__PURE__*/
 function () {
-  function Bar(data, opts) {
+  function Bar(data, opts, domNode) {
     _classCallCheck(this, Bar);
 
     this.data = data;
@@ -141,9 +149,9 @@ function () {
       //set options because d3 resets the value of 'this'
       var options = this.opts;
       d3.select(domNode).selectAll("rect").data(this.data).enter().append("rect").attr(options.vert ? "height" : "width", function (d) {
-        return d[1] * options.h;
-      }).attr(options.vert ? "width" : "height", options.w).attr(options.vert ? "x" : "y", function (d) {
-        return d[0] * (10 + options.space) + "px";
+        return d[1] * Number(options.h) + "px";
+      }).attr(options.vert ? "width" : "height", Number(options.w) + "px").attr(options.vert ? "x" : "y", function (d) {
+        return d[0] * (10 + Number(options.space)) + "px";
       }).attr("fill", options.fill).text(function (d) {
         return d[1];
       });
@@ -178,7 +186,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * Data format:
  * [ [value, name], [...] ]
  *
- * 
+ * TODO: Add more opts
+ * TODO: Add styling
+ * TODO: Add labeling
 /*/
 var Pie =
 /*#__PURE__*/
@@ -193,6 +203,7 @@ function () {
   _createClass(Pie, [{
     key: "render",
     value: function render(domNode) {
+      //set options because d3 resets the value of 'this'
       var options = this.opts; // Data set up
 
       var arcSegs = d3.pie()(this.data);
@@ -214,6 +225,52 @@ function () {
 }();
 
 exports.default = Pie;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/*-- Line.js
+ * Constructs a line chart.
+ * Data format:
+/*/
+var Line =
+/*#__PURE__*/
+function () {
+  function Line(name, data, opts) {
+    _classCallCheck(this, Line);
+
+    this.name = name;
+    this.data = data;
+    this.opts = opts;
+  }
+
+  _createClass(Line, [{
+    key: "render",
+    value: function render(domNode) {
+      //set options because d3 resets the value of 'this'
+      var options = this.opts;
+    }
+  }]);
+
+  return Line;
+}();
+
+exports.default = Line;
 
 /***/ })
 /******/ ]);

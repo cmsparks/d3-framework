@@ -14,23 +14,23 @@
 /*/
 
 export default class Bar {
-  constructor(data, opts) {
-    this.data = data;
+  constructor(data, opts, domNode) {
 		this.opts = opts;
+		this.data = data;
   }
 
   render(domNode) {
   	//set options because d3 resets the value of 'this'
   	let options = this.opts;
 
-	  d3.select(domNode)
-	    .selectAll("rect")
+  	d3.select(domNode)
+  		.selectAll("rect")
 		    .data(this.data)
-	    .enter().append("rect")
-		    .attr(((options.vert) ? "height" : "width"), function(d) {return d[1] * (options.h)})
-		    .attr(((options.vert) ? "width" : "height"), options.w)
-		    .attr(((options.vert) ?  "x" : "y"), function(d) {return d[0]*(10+options.space)+"px";})
-		    .attr("fill", options.fill)
-		    .text(function(d) {return d[1];});
+	    	.enter()
+	    .append("rect")
+		    .attr(((options.vert) ? "height" : "width"), function(d) { return d[1] * Number(options.h)+"px"})
+		    .attr(((options.vert) ? "width" : "height"), Number(options.w)+"px")
+		    .attr(((options.vert) ?  "x" : "y"), function(d) {return d[0]*(10+Number(options.space))+"px"})
+		    .attr("fill", options.fill);
   }
 }

@@ -4,7 +4,7 @@
   <body>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="d3framework.js"></script>
-    <svg id="bar"></svg>
+    <svg id="barCont"></svg>
     <svg width="250px" height="250px">
       <g id="pie" transform="translate(105, 105)">
       </g>
@@ -16,17 +16,17 @@
         "fill": "green",
         "h": 10,
         "space": 5,
-        "w": "10px"
+        "w": 10
       };
       let chart = new d3framework.Bar(data, opts);
-      chart.render("#bar");
+      chart.render("#barCont");
 
       let dataPie = [20,40,30,25,10, 5];
       let optsPie = {
         "innerRadius": 50,
         "outerRadius": 100
       };
-      let pie = new d3framework.Pie(dataPie, optsPie);
+      let pie = new d3framework.Pie("pie", dataPie, optsPie);
       pie.render("#pie");
     </script>
   </body>
