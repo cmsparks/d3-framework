@@ -4,9 +4,13 @@
   <body>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="d3framework.js"></script>
-    <svg id="node"></svg>
+    <svg id="bar"></svg>
+    <svg width="250px" height="250px">
+      <g id="pie" transform="translate(105, 105)">
+      </g>
+    </svg>
     <script>
-      let data = [0,3],[1,5],[2,4],[3,6]];
+      let data = [[0,3],[1,5],[2,4],[3,6]];
       let opts = {
         "vert": false,
         "fill": "green",
@@ -15,7 +19,15 @@
         "w": "10px"
       };
       let chart = new d3framework.Bar(data, opts);
-      chart.render("#node");
+      chart.render("#bar");
+
+      let dataPie = [20,40,30,25,10, 5];
+      let optsPie = {
+        "innerRadius": 50,
+        "outerRadius": 100
+      };
+      let pie = new d3framework.Pie(dataPie, optsPie);
+      pie.render("#pie");
     </script>
   </body>
 </html>

@@ -1,3 +1,18 @@
+/*-- Bar.js
+ * Constructs a bar chart.
+ * Data format:
+ * [ [index, value, name], [...] ]
+ * 
+ * The index is stored in the array due to D3 making it 
+ * complicated to access the index of data while
+ * manipulating it.
+ *
+ * TODO Automatically build indexes inside data
+ * TODO: Use the name and add labels + label opts
+ * TODO: Add axes + axes opts
+ * TODO: Add lists of opts
+/*/
+
 export default class Bar {
   constructor(data, opts) {
     this.data = data;
@@ -5,7 +20,9 @@ export default class Bar {
   }
 
   render(domNode) {
-  	let options = this.opts
+  	//set options because d3 resets the value of 'this'
+  	let options = this.opts;
+
 	  d3.select(domNode)
 	    .selectAll("rect")
 		    .data(this.data)

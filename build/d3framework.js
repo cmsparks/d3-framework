@@ -111,34 +111,34 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+/*-- Bar.js
+ * Constructs a bar chart.
+ * Data format:
+ * [ [index, value, name], [...] ]
+ * 
+ * The index is stored in the array due to D3 making it 
+ * complicated to access the index of data while
+ * manipulating it.
+ *
+ * TODO Automatically build indexes inside data
+ * TODO: Use the name and add labels + label opts
+ * TODO: Add axes + axes opts
+ * TODO: Add lists of opts
+/*/
 var Bar =
 /*#__PURE__*/
 function () {
   function Bar(data, opts) {
     _classCallCheck(this, Bar);
 
-    if (data === undefined) {
-      this.data = [[0, 3], [1, 5], [2, 4], [3, 6]];
-    } else {
-      this.data = data;
-    }
-
-    if (opts === undefined) {
-      this.opts = {
-        "vert": false,
-        "fill": "green",
-        "h": 10,
-        "space": 5,
-        "w": "10px"
-      };
-    } else {
-      this.opts = opts;
-    }
+    this.data = data;
+    this.opts = opts;
   }
 
   _createClass(Bar, [{
     key: "render",
     value: function render(domNode) {
+      //set options because d3 resets the value of 'this'
       var options = this.opts;
       d3.select(domNode).selectAll("rect").data(this.data).enter().append("rect").attr(options.vert ? "height" : "width", function (d) {
         return d[1] * options.h;
@@ -165,7 +165,7 @@ exports.default = Bar;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Pie = void 0;
+exports.default = void 0;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -173,25 +173,47 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+/*-- Pie.js
+ * Constructs a Pie chart.
+ * Data format:
+ * [ [value, name], [...] ]
+ *
+ * 
+/*/
 var Pie =
 /*#__PURE__*/
 function () {
-  function Pie() {
+  function Pie(data, opts) {
     _classCallCheck(this, Pie);
+
+    this.data = data;
+    this.opts = opts;
   }
 
   _createClass(Pie, [{
-    key: "setData",
-    value: function setData(data) {}
-  }, {
     key: "render",
-    value: function render(domNode) {}
+    value: function render(domNode) {
+      var options = this.opts; // Data set up
+
+      var arcSegs = d3.pie()(this.data);
+      console.log(arcSegs);
+      var arcPaths = d3.arc().outerRadius(options.outerRadius).innerRadius(options.innerRadius).startAngle(function (d) {
+        return d.startAngle;
+      }).endAngle(function (d) {
+        return d.endAngle;
+      }); // SVG Rendering
+
+      var colors = d3.scaleOrdinal(d3.schemeCategory10);
+      d3.select(domNode).selectAll('path').data(arcSegs).enter().append('path').attr('d', arcPaths).attr('fill', function (d, i) {
+        return colors(i);
+      });
+    }
   }]);
 
   return Pie;
 }();
 
-exports.Pie = Pie;
+exports.default = Pie;
 
 /***/ })
 /******/ ]);
