@@ -80,8 +80,16 @@ Object.defineProperty(exports, "Bar", {
     return _Bar.default;
   }
 });
+Object.defineProperty(exports, "Pie", {
+  enumerable: true,
+  get: function get() {
+    return _Pie.default;
+  }
+});
 
 var _Bar = _interopRequireDefault(__webpack_require__(1));
+
+var _Pie = _interopRequireDefault(__webpack_require__(2));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -106,22 +114,38 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Bar =
 /*#__PURE__*/
 function () {
-  function Bar() {
+  function Bar(data, opts) {
     _classCallCheck(this, Bar);
+
+    if (data === undefined) {
+      this.data = [[0, 3], [1, 5], [2, 4], [3, 6]];
+    } else {
+      this.data = data;
+    }
+
+    if (opts === undefined) {
+      this.opts = {
+        "vert": false,
+        "fill": "green",
+        "h": 10,
+        "space": 5,
+        "w": "10px"
+      };
+    } else {
+      this.opts = opts;
+    }
   }
 
   _createClass(Bar, [{
-    key: "setData",
-    value: function setData(data) {
-      this.data = data;
-    }
-  }, {
     key: "render",
     value: function render(domNode) {
-      d3.select(domNode).selectAll("div").data(this.data).enter().append("div").style("width", function (d) {
-        return d * 10 + "px";
-      }).text(function (d) {
-        return d;
+      var options = this.opts;
+      d3.select(domNode).selectAll("rect").data(this.data).enter().append("rect").attr(options.vert ? "height" : "width", function (d) {
+        return d[1] * options.h;
+      }).attr(options.vert ? "width" : "height", options.w).attr(options.vert ? "x" : "y", function (d) {
+        return d[0] * (10 + options.space) + "px";
+      }).attr("fill", options.fill).text(function (d) {
+        return d[1];
       });
     }
   }]);
@@ -130,6 +154,44 @@ function () {
 }();
 
 exports.default = Bar;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Pie = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Pie =
+/*#__PURE__*/
+function () {
+  function Pie() {
+    _classCallCheck(this, Pie);
+  }
+
+  _createClass(Pie, [{
+    key: "setData",
+    value: function setData(data) {}
+  }, {
+    key: "render",
+    value: function render(domNode) {}
+  }]);
+
+  return Pie;
+}();
+
+exports.Pie = Pie;
 
 /***/ })
 /******/ ]);

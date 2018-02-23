@@ -1,15 +1,22 @@
 <html>
   <head>
-    <style>
-      #node > div {
-	background-color: blue;
-      }
-    </style>
   </head>
   <body>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="d3framework.js"></script>
-    <div id="node"></div>
+    <svg id="node"></svg>
+    <script>
+      let data = [0,3],[1,5],[2,4],[3,6]];
+      let opts = {
+        "vert": false,
+        "fill": "green",
+        "h": 10,
+        "space": 5,
+        "w": "10px"
+      };
+      let chart = new d3framework.Bar(data, opts);
+      chart.render("#node");
+    </script>
   </body>
 </html>
 
