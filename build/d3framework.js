@@ -122,11 +122,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 /*-- Bar.js
  * Constructs a bar chart.
  * Data format:
- * [ [index, value, name], [...] ]
- * 
- * The index is stored in the array due to D3 making it 
- * complicated to access the index of data while
- * manipulating it.
+ * [ value, value, [...] ]
  *
  * TODO Automatically build indexes inside data
  * TODO: Use the name and add labels + label opts
@@ -152,10 +148,12 @@ function () {
       var domNode = this.domNode;
       this.clear();
       d3.select(domNode).attr("transform", options.vert ? "" : "rotate(-90)").selectAll("rect").data(this.data).enter().append("rect").attr("width", function (d) {
-        return d[1] * Number(options.h) + "px";
-      }).attr("height", Number(options.w) + "px").attr("y", function (d) {
-        return d[0] * (10 + Number(options.space)) + "px";
-      }).attr("fill", options.fill);
+        return d * Number(options.h) + "px";
+      }).attr("height", Number(options.w) + "px").attr("y", function (d, i) {
+        return i * (10 + Number(options.space)) + "px";
+      }).attr("fill", function (d, i) {
+        return options.colors(i);
+      });
     }
   }, {
     key: "clear",
@@ -222,10 +220,9 @@ function () {
         return d.endAngle;
       }); // SVG Rendering
 
-      var colors = d3.scaleOrdinal(d3.schemeCategory10);
       d3.select(this.domNode).selectAll('path').data(arcSegs).enter().append('path').attr('d', arcPaths).attr('fill', function (d, i) {
-        return colors(i);
-      });
+        return options.colors(i);
+      }).attr('transform', 'translate(' + options.x + ',' + options.y + ')');
     }
   }, {
     key: "clear",
@@ -260,9 +257,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 /*-- Line.js
  * Constructs a line chart.
  * Data format:
- * 
+ * []
  *
- *
+ * TODO: add in other data handling stuff
+ * TODO: Add axis
 /*/
 var Line =
 /*#__PURE__*/
@@ -280,6 +278,15 @@ function () {
     value: function render() {
       //set options because method chaining resets the value of 'this'
       var options = this.opts;
+      var data = this.data;
+      var lineData = d3.line()(data);
+      /*
+      .x(function(d) { return x(d.x) })
+      .y(function(d) { return y(d.y) });
+      */
+
+      console.log(lineData);
+      d3.select(this.domNode).append("path").attr("d", lineData).attr("stroke", options.color).attr("stroke-width", options.width).attr("fill", "none");
     }
   }, {
     key: "clear",

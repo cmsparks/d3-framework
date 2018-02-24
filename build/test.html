@@ -4,16 +4,19 @@
   <body>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="d3framework.js"></script>
-    <svg id="barCont" width="250px" height="250px"></svg>
-    <svg width="250px" height="250px">
-      <g id="pie" transform="translate(105, 105)">
-      </g>
+    <svg id="barCont" width="250px" height="250px">
+    </svg>
+    <svg id="pie" width="250px" height="250px">
+    </svg>
+    <svg id="line" width="250px" height="250px">
     </svg>
     <script>
-      let data = [[0,3],[1,5],[2,4],[3,6]];
+      let colors = d3.scaleOrdinal(d3.schemeCategory10);
+      
+      let data = [3,5,4,6];
       let opts = {
         "vert": false,
-        "fill": "green",
+        "colors": colors,
         "h": 10,
         "space": 5,
         "w": 10
@@ -21,13 +24,24 @@
       let chart = new d3framework.Bar(data, opts, "#barCont");
       chart.render();
 
-      let dataPie = [20,40,30,25,10, 5];
+      let dataPie = [20,40,30,25,10,5];
       let optsPie = {
         "innerRadius": 50,
-        "outerRadius": 100
+        "outerRadius": 100,
+        "colors": colors,
+        "x": 105,
+        "y": 105
       };
       let pie = new d3framework.Pie(dataPie, optsPie, "#pie");
       pie.render();
+
+      let dataLine = [[40,100],[80,80],[120,60],[160,100],[200,120],[240,140]]
+      let optsLine = {
+        "color": "blue",
+        "width": "2"
+      }
+      let line = new d3framework.Line(dataLine, optsLine, "#line");
+      line.render();
     </script>
   </body>
 </html>

@@ -1,11 +1,7 @@
 /*-- Bar.js
  * Constructs a bar chart.
  * Data format:
- * [ [index, value, name], [...] ]
- * 
- * The index is stored in the array due to D3 making it 
- * complicated to access the index of data while
- * manipulating it.
+ * [ value, value, [...] ]
  *
  * TODO Automatically build indexes inside data
  * TODO: Use the name and add labels + label opts
@@ -34,13 +30,13 @@ export default class Bar {
 	    	.enter()
 	    .append("rect")
 		    .attr("width", function(d) {
-		    	return d[1] * Number(options.h)+"px"
+		    	return d * Number(options.h)+"px"
 		    })
 		    .attr("height", Number(options.w)+"px")
-		    .attr("y", function(d) {
-		    			return d[0]*(10+Number(options.space))+"px"
+		    .attr("y", function(d, i) {
+		    			return i*(10+Number(options.space))+"px"
 		    })
-		    .attr("fill", options.fill);
+		    .attr("fill", function (d, i) { return options.colors(i) });
   }
 
   clear() {

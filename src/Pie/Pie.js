@@ -30,15 +30,14 @@ export default class Pie {
 			.endAngle(function (d) {return d.endAngle})
 
 		// SVG Rendering
-		let colors = d3.scaleOrdinal(d3.schemeCategory10);
-
 		d3.select(this.domNode)
 			.selectAll('path')
 			.data(arcSegs)
 			.enter()
 			.append('path')
 			.attr('d', arcPaths)
-			.attr('fill', function (d, i) { return colors(i);});
+			.attr('fill', function (d, i) { return options.colors(i);})
+			.attr('transform', 'translate('+options.x+','+options.y+')')
 	}
 
 	clear() {
