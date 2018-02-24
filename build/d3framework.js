@@ -139,22 +139,29 @@ function () {
   function Bar(data, opts, domNode) {
     _classCallCheck(this, Bar);
 
-    this.data = data;
     this.opts = opts;
+    this.data = data;
+    this.domNode = domNode;
   }
 
   _createClass(Bar, [{
     key: "render",
-    value: function render(domNode) {
-      //set options because d3 resets the value of 'this'
+    value: function render() {
+      //set options because method chaining resets the value of 'this'
       var options = this.opts;
-      d3.select(domNode).selectAll("rect").data(this.data).enter().append("rect").attr(options.vert ? "height" : "width", function (d) {
+      var domNode = this.domNode;
+      this.clear();
+      d3.select(domNode).attr("transform", options.vert ? "" : "rotate(-90)").selectAll("rect").data(this.data).enter().append("rect").attr("width", function (d) {
         return d[1] * Number(options.h) + "px";
-      }).attr(options.vert ? "width" : "height", Number(options.w) + "px").attr(options.vert ? "x" : "y", function (d) {
+      }).attr("height", Number(options.w) + "px").attr("y", function (d) {
         return d[0] * (10 + Number(options.space)) + "px";
-      }).attr("fill", options.fill).text(function (d) {
-        return d[1];
-      });
+      }).attr("fill", options.fill);
+    }
+  }, {
+    key: "clear",
+    value: function clear() {
+      var domNode = this.domNode;
+      d3.select(domNode).selectAll("*").remove();
     }
   }]);
 
@@ -193,21 +200,22 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Pie =
 /*#__PURE__*/
 function () {
-  function Pie(data, opts) {
+  function Pie(data, opts, domNode) {
     _classCallCheck(this, Pie);
 
     this.data = data;
     this.opts = opts;
+    this.domNode = domNode;
   }
 
   _createClass(Pie, [{
     key: "render",
-    value: function render(domNode) {
-      //set options because d3 resets the value of 'this'
-      var options = this.opts; // Data set up
+    value: function render() {
+      //set options because method chaining resets the value of 'this'
+      var options = this.opts;
+      this.clear(); // Data set up
 
       var arcSegs = d3.pie()(this.data);
-      console.log(arcSegs);
       var arcPaths = d3.arc().outerRadius(options.outerRadius).innerRadius(options.innerRadius).startAngle(function (d) {
         return d.startAngle;
       }).endAngle(function (d) {
@@ -215,9 +223,14 @@ function () {
       }); // SVG Rendering
 
       var colors = d3.scaleOrdinal(d3.schemeCategory10);
-      d3.select(domNode).selectAll('path').data(arcSegs).enter().append('path').attr('d', arcPaths).attr('fill', function (d, i) {
+      d3.select(this.domNode).selectAll('path').data(arcSegs).enter().append('path').attr('d', arcPaths).attr('fill', function (d, i) {
         return colors(i);
       });
+    }
+  }, {
+    key: "clear",
+    value: function clear() {
+      d3.select(this.domNode).selectAll("*").remove();
     }
   }]);
 
@@ -247,23 +260,31 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 /*-- Line.js
  * Constructs a line chart.
  * Data format:
+ * 
+ *
+ *
 /*/
 var Line =
 /*#__PURE__*/
 function () {
-  function Line(name, data, opts) {
+  function Line(data, opts, domNode) {
     _classCallCheck(this, Line);
 
-    this.name = name;
     this.data = data;
     this.opts = opts;
+    this.domNode = domNode;
   }
 
   _createClass(Line, [{
     key: "render",
-    value: function render(domNode) {
-      //set options because d3 resets the value of 'this'
+    value: function render() {
+      //set options because method chaining resets the value of 'this'
       var options = this.opts;
+    }
+  }, {
+    key: "clear",
+    value: function clear() {
+      d3.select(this.domNode).selectAll("*").remove();
     }
   }]);
 
